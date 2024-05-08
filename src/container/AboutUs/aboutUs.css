@@ -1,0 +1,60 @@
+.app__aboutus {
+    position: relative;
+}
+
+
+.app__aboutus-content {
+    width: 60%;
+}
+
+.app__aboutus-content_about {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: column;
+
+    text-align: right;
+}
+
+.app__aboutus-content_bartender {
+    margin: 2rem 4rem;
+}
+
+.app__aboutus-content_bartender img {
+    height: 410px;
+}
+
+
+.app__aboutus-content_about p {
+    margin: 2rem 0;
+    color: var(--color-brown);
+}
+
+
+@media screen and (max-width: 2000px) {
+
+    .app__aboutus-content_knife img {
+        height: 1110px;
+    }
+
+    .app__aboutus-content_history p,
+    .app__aboutus-content_about p {
+        margin: 4rem 0;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .app__aboutus-content {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .app__aboutus-overlay img {
+        width: 60%;
+        height: 320px;
+    }
+    .app__aboutus-content_bartender img {
+        height: 310px;
+    }
+}

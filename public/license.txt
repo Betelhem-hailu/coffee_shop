@@ -1,0 +1,11 @@
+Model Information:
+* title:	Paper Coffee Cup
+* source:	https://sketchfab.com/3d-models/paper-coffee-cup-e77b65a844324452a385bf4c1275515f
+* author:	Crazy_8 (https://sketchfab.com/korboleevd)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Paper Coffee Cup" (https://sketchfab.com/3d-models/paper-coffee-cup-e77b65a844324452a385bf4c1275515f) by Crazy_8 (https://sketchfab.com/korboleevd) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
