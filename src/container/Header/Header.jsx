@@ -38,7 +38,7 @@ const Header = () => {
             camera.position.y = 0.2;
             camera.position.z = 2.5;
             renderer.setSize(window.innerWidth/2, window.innerHeight/2);
-            mountRef.current.appendChild(re    distnderer.domElement);
+            mountRef.current.appendChild(renderer.domElement);
 
             objectSetup();
             window.addEventListener('resize', onWindowResize, false);
