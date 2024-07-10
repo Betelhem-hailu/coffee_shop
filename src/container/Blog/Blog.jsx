@@ -16,7 +16,7 @@ const BlogCard = ({blog: {imgUrl, title, content}}) => (
 )
 
 const Blog = () => (
-  <div className='flex-center section__padding' id='awards'>
+  <div className='flex-center section__padding' id='blog'>
     <h1 className='headtext__cormorant flex__center'>Our Blog</h1>
 
     <div className='app__blogs'>

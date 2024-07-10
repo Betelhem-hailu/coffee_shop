@@ -1,209 +1,87 @@
-// import * as THREE from '/three';
+import './style.css';
+import * as THREE from 'three';
 
-// const renderer = new THREE.WebGLRenderer({antialias: true});
-// renderer.outputColorSpace = THREE.SRGBColorSpace;
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+var renderer = new THREE.WebGLRenderer();
+const starGeo = new THREE.BufferGeometry();
+var stars;
 
-// renderer.setSize(window.innerWidth, window.innerHeight);
-// renderer.setClearColor(0x000000);
-// renderer.setPixelRatio(window.devicePixelRatio);
+function init() {
+    camera.position.z = 1;
+    camera.rotation.x = Math.PI / 2
 
-// document.body.appendChild(renderer.domElement);
-// const scene = new THREE.Scene();
-// const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 1, 1000);
-// camera.position.set(4,5,11);
-// camera.lookAt(0, 0, 0);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
 
-// const groundGeometry = new THREE.PlaneGeometry(20, 20, 32, 32);
-// groundGeometry.rotateX(-Math.PI / 2);
-// const groundMaterial = new Three.MeshStandardMaterial({
-//     color: 0x555555,
-//     side: THREE.DoubleSide
-// });
-// const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
-// scene.add(groundMesh);
+    
+    const starCount = 6000;
 
-// const spotLight = new THREE.SpotLight(0xfffff, 3, 100, 0.2, 0.5);
-// spotLight.position.set(0, 25, 0);
-// scene.add(spotLight);
+    const positions = new Float32Array(starCount * 3);
 
-// function animate(){
-//     requestAnimationFrame(animate);
-//     renderer.render(scene, camera);
-// }
+    for (let i = 0; i < starCount; i++) {
+        const x = Math.random() * 600 - 300;
+        const y = Math.random() * 600 - 300;
+        const z = Math.random() * 600 - 300;
 
-// animate();
-
-import './style.css'
-import * as THREE from '/three';
-import { GLTFLoader } from '/three/examples/jsm/loaders/GLTFLoader';
-
-const canvas = document.querySelector('canvas.webgl');
-
-
-const scene = new THREE.Scene();
-
-const overlayGeometry = new THREE.PlaneGeometry(2, 2, 1, 1);
-const overlayMaterial = new THREE.ShaderMaterial({
-  vertexShader: `
-  void main(){
-    gl_Position = vec4(position, 1.0);
-  }`,
-  fragmentShader: `
-  uniform float uAlpha;
-  void main(){
-    gl_FragColor = vec4(0.0, 0.0, 0.0, uAlpha);
-  }`,
-  uniforms: {
-    uAlpha: {
-      value: 1.0
+        positions[i * 3] = x;
+        positions[i * 3 + 1] = y;
+        positions[i * 3 + 2] = z;
     }
-  },
-  transparent: true
-});
 
-const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial)
-scene.add(overlay)
+    const velocities = new Float32Array(starCount);
 
-const loadingBarElement = document.querySelector('.loading-bar')
-const bodyElement = document.querySelector('body')
-const loadingManager = new THREE.LoadingManager(
-  () => {
-    window.setTimeout(() => {
-      gsap.to(overlayMaterial.uniforms.uAlpha, {
-        duration: 3,
-        value: 0,
-        delay: 1
-    })
+    for (let i = 0; i < starCount; i++) {
+        velocities[i] = 0;
+    }
+    const accelerations = new Float32Array(starCount);
 
-    loadingBarElement.classList.add('ended')
-    bodyElement.classList.add('loaded')
-    loadingBarElement.style.transform = ''
+    for (let i = 0; i < starCount; i++) {
+        accelerations[i] = 0.02;
+    }
 
-    }, 500)
-  },
-  (itemUrl, itemsLoaded, itemsTotal) => {
-    const progressRatio = itemsLoaded / itemsTotal
-    loadingBarElement.style.transform = `scaleX(${progressRatio})`
-    console.log(progressRatio)
-  },
-  () => {
-    console.error('error')
-  }
-)
+    starGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    starGeo.setAttribute('velocity', new THREE.BufferAttribute(velocities, 1));
+    starGeo.setAttribute('acceleration', new THREE.BufferAttribute(accelerations, 1));
+    let sprite = new THREE.TextureLoader().load('star.png');
+    const starMaterial = new THREE.PointsMaterial({
+        color: 0xaaaaaa,
+        size: 0.7,
+        map: sprite
+    });
+    stars = new THREE.Points(starGeo, starMaterial);
+    scene.add(stars);
+    animate()
+}
 
-let donut = null;
-const gltfloader = new GLTFLoader(loadingManager);
-gltfloader.load('/scene.gltf', (gltf) => {
-  console.log(gltf)
-  donut = gltf.scene;
+function onWindowResize(){
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight)
+}
 
+function animate() {
+    starGeo.attributes.position.array.forEach((_, i) => {
+        const velocity = starGeo.attributes.velocity.array[i];
+        const acceleration = starGeo.attributes.acceleration.array[i];
 
-  donut.position.x = 1.5;
-  donut.rotation.x = Math.PI * 0.2
-  donut.rotation.z = Math.PI * 0.15
+        starGeo.attributes.velocity.array[i] += acceleration;
+        starGeo.attributes.position.array[i * 3 + 1] -= velocity;
 
-  const radius = 8.5;
-  donut.scale.set(radius, radius, radius)
-  scene.add(donut);
-})
-
-
-const transformDonut = [
-  {
-    rotationZ: 0.45,
-    positionX: 1.5
-  }, {
-    rotationZ: -0.45,
-    positionX: -1.5
-  }, {
-    rotationZ: 0.0314,
-    positionX: 0
-  }
-]
-
-let scrollY = window.scrollY
-let currentSection = 0
-
-window.addEventListener('scroll', () => {
-  scrollY = window.scrollY
-  const newSection = Math.round(scrollY / sizes.height)
-
-
-  if (newSection != currentSection) {
-    currentSection = newSection;
-
-    if (!!donut) {
-      gsap.to(
-        donut.rotation, {
-        duration: 1.5,
-        ease: `power2.inOut`,
-        z: transformDonut[currentSection].rotationZ
-      }
-      )
-      gsap.to(
-        donut.position, {
-        duration: 1.5,
-        ease: `power2.inOut`,
-        x: transformDonut[currentSection].positionX
-      }
-      )
-      gsap.to(
-        sphereShadow.position, {
-            duration: 1.5,
-            ease: 'power2.inOut',
-            x: transformDonut[currentSection].positionX - 0.2
+        if (starGeo.attributes.position.array[i * 3 + 1] < -200) {
+            starGeo.attributes.position.array[i * 3 + 1] = 200;
+            starGeo.attributes.velocity.array[i] = 0;
         }
-    )
-    }
-  }
+    });
 
+    starGeo.attributes.position.needsUpdate = true;
+    starGeo.attributes.velocity.needsUpdate = true;
+    stars.rotation.y += 0.002;
 
-})
+    onWindowResize();
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
 
-const sizes = {
-  width: window.innerWidth,
-  height: window.innerHeight
 }
 
-const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height, 0.1, 1000);
-camera.position.z = 5
-scene.add(camera);
-
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-scene.add(ambientLight);
-
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(1, 2, 0)
-scene.add(directionalLight)
-
-const renderer = new THREE.WebGLRenderer(
-  {
-    canvas: canvas,
-    antialias: true,
-    alpha: true
-  })
-
-renderer.setSize(sizes.width, sizes.height)
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-const clock = new THREE.Clock();
-let lastElapsedTime = 0;
-
-const tick = () => {
-  const elapsedTime = clock.getElapsedTime();
-  const deltaTime = elapsedTime - lastElapsedTime
-  lastElapsedTime = elapsedTime
-
-  if (!!donut) {
-    donut.position.y = Math.sin(elapsedTime * 0.5) * 0.1 - 0.1
-  }
-
-  renderer.render(scene, camera);
-  window.requestAnimationFrame(tick)
-}
-
-tick()
-
-window.onbeforeunload = function () {
-  window.scrollTo(0, 0)
-}
+init();

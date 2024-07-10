@@ -24,7 +24,7 @@ const Navbar = () => {
                         <a href="#menu">MENU</a>
                     </li>
                     <li className="p_opensans">
-                        <a href="#awards">SHOP</a>
+                        <a href="#product">SHOP</a>
                     </li>
                 </ul>
                 <ul className="app_navbar-links">
@@ -32,10 +32,10 @@ const Navbar = () => {
                         <a href="#home">GALLERY</a>
                     </li>
                     <li className="p_opensans">
-                        <a href="#about">BLOG</a>
+                        <a href="#blog">BLOG</a>
                     </li>
                     <li className="p_opensans">
-                        <a href="#menu">CONTACT</a>
+                        <a href="#contact">CONTACT</a>
                     </li>
                     <li className="p_opensans">
                         <a href="#awards">CART</a>

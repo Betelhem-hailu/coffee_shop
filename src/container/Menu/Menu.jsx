@@ -71,9 +71,9 @@ const Menus = () => {
     }, []);
 
     return (
-        <div className='app__bg'>
+        <div className='app__bg' id='menu'>
             <div className='app__wrapper overlay'>
-                <div className='section__padding ' id='awards'>
+                <div className='section__padding'>
                     <div className='app__wrapper_info'>
                         <SubHeading title="Dare to Discover Bold New Flavours" />
                         <h1 className='headtext__cormorant '>Best selling coffees</h1>

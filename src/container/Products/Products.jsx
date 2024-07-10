@@ -16,7 +16,7 @@ const ProductCard = ({product: {imgUrl, title, subtitle, price}}) => (
 )
 
 const Products = () => (
-  <div className='flex-center section__padding' id='awards'>
+  <div className='flex-center section__padding' id='product'>
     <h1 className='headtext__cormorant flex__center'>Our Products</h1>
 
     <div className='app__products'>

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Caffè Latte Cup
+* source:	https://sketchfab.com/3d-models/caffe-latte-cup-68800ae29ebf4333a99e3513545eff59
+* author:	Clo7er (https://sketchfab.com/clo7er)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Caffè Latte Cup" (https://sketchfab.com/3d-models/caffe-latte-cup-68800ae29ebf4333a99e3513545eff59) by Clo7er (https://sketchfab.com/clo7er) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

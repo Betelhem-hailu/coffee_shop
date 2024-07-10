@@ -32,7 +32,7 @@ const Testmony = () => {
   };
 
   return (
-    <div className='app__test' id='about'>
+    <div className='app__test' id='testmony'>
       <div className='overlay_test'>
         <div className='flex__center section__padding '>
           <div className='app__test-content'>
@@ -43,9 +43,9 @@ const Testmony = () => {
 
             <div className="app__test-content_customers">
               <div className='app__test_container' ref={scrollRef}>
-                {data.testmony.map((test) => <TestmonyCard test={test} key={test.title} />)}
+                {data.testmony.map((test, index) => <TestmonyCard test={test} key={index}/>)}
               </div>
-              <div className="app__test-content_arrows">
+              <div className="app__test-content_arrows" >
                 <IoMdArrowDropleft
                   className="test__arrow-icon"
                   onClick={() => scroll("left")}
